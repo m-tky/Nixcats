@@ -293,12 +293,12 @@
               nvim-treesitter.withAllGrammars
               transparent-nvim
               rainbow-delimiters-nvim
-              smear-cursor-nvim
+              # smear-cursor-nvim
               nvim-highlight-colors
               gitsigns-nvim
               git-conflict-nvim
               lualine-nvim
-              neoscroll-nvim
+              # neoscroll-nvim
               nvim-web-devicons
               nvim-scrollview
               hlchunk-nvim

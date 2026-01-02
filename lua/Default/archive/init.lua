@@ -8,13 +8,13 @@ require("lze").load({
 		end,
 		event = { "UIEnter" },
 	},
-	{
-		"neoscroll.nvim",
-		event = "DeferredUIEnter",
-		after = function(_)
-			require("neoscroll").setup({})
-		end,
-	},
+	-- {
+	-- 	"neoscroll.nvim",
+	-- 	event = "DeferredUIEnter",
+	-- 	after = function(_)
+	-- 		require("neoscroll").setup({})
+	-- 	end,
+	-- },
 	-- tools
 	{
 		"vim-startuptime",
