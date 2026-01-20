@@ -116,6 +116,7 @@ require("lze").load({
 				"sqls",
 				"tinymist",
 				"yamlls",
+				"ltex_ls",
 			}
 			vim.lsp.config("*", {})
 			vim.lsp.config(
