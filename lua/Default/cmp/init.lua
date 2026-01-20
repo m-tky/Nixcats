@@ -56,9 +56,6 @@ require("lze").load({
 	{
 		"blink.cmp",
 		event = { "InsertEnter", "CmdlineEnter" },
-		dep_of = {
-			"quarato-nvim",
-		},
 		after = function()
 			local spell_enabled_cache = {}
 
@@ -299,42 +296,38 @@ require("lze").load({
 											end
 										end
 
-										-- 2. devicons が無ければ lspkind を使う
+										-- 2. lspkind を安全に呼び出す (ここが修正の肝)
 										if icon == ctx.kind_icon then
-											local lsp_icon = require("lspkind").symbolic(ctx.kind, { mode = "symbol" })
-											if lsp_icon and lsp_icon ~= "" then
-												icon = lsp_icon
+											local status, lspkind = pcall(require, "lspkind")
+											if status and type(lspkind.symbolic) == "function" then
+												local lsp_icon = lspkind.symbolic(ctx.kind, { mode = "symbol" })
+												if lsp_icon and lsp_icon ~= "" then
+													icon = lsp_icon
+												end
 											end
 										end
 
-										-- 3. それでもアイコンが決まらなければ自作条件分岐
+										-- 3. 自作条件分岐 (既存のロジックをキープ)
 										if icon == ctx.kind_icon then
 											if ctx.source_name == "Git" then
-												icon = "󰊢" -- Git 用アイコン
+												icon = "󰊢"
 											elseif ctx.source_name == "Ripgrep" then
-												icon = "" -- Ripgrep 用アイコン
+												icon = ""
 											elseif ctx.source_name == "Spell" then
-												icon = "󰓆" -- Spell 用アイコン
+												icon = "󰓆"
 											elseif ctx.source_name == "Copilot" then
-												icon = "" -- Copilot 用アイコン
-												-- elseif ctx.source_name == "Functions" then
-												-- 	icon = "󰊕" -- Function 用アイコン
-												-- else
-												-- 	icon = "" -- デフォルトアイコン
+												icon = ""
 											end
 										end
 
 										return icon .. (ctx.icon_gap or " ")
 									end,
 
-									-- Optionally, use the highlight groups from nvim-web-devicons
-									-- You can also add the same function for `kind.highlight` if you want to
-									-- keep the highlight groups in sync with the icons.
 									highlight = function(ctx)
 										local hl = ctx.kind_hl
-										if vim.tbl_contains({ "Path" }, ctx.source_name) then
-											local dev_icon, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
-											if dev_icon then
+										if ctx.source_name == "Path" then
+											local _, dev_hl = require("nvim-web-devicons").get_icon(ctx.label)
+											if dev_hl then
 												hl = dev_hl
 											end
 										end

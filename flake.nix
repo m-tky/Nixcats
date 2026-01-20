@@ -26,15 +26,10 @@
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
     jovian-nvim = {
       url = "git+https://github.com/m-tky/jovian.nvim?ref=dev";
-      # url = "/home/user/Code/jovian.nvim";
       flake = false;
     };
     jupytext-nvim = {
       url = "github:GCBallesteros/jupytext.nvim";
-      flake = false;
-    };
-    nvim-treesitter = {
-      url = "git+https://github.com/nvim-treesitter/nvim-treesitter?ref=main";
       flake = false;
     };
     nvim-treesitter-textobjects = {
@@ -124,29 +119,6 @@
           mkPlugin,
           ...
         }@packageDef:
-        let
-          mkTsIntegratedPackage =
-            let
-              nvimTreesitterMain = pkgs.vimUtils.buildVimPlugin {
-                pname = "nvim-treesitter";
-                version = "git";
-                src = inputs.nvim-treesitter;
-                doCheck = false;
-                nvimSkipModules = [ "nvim-treesitter._meta.parsers" ];
-              };
-
-              # allParsers = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
-
-            in
-            # ここが重要！symlinkJoinの結果だけを返す
-            pkgs.symlinkJoin {
-              name = "nvim-treesitter-integrated";
-              paths = pkgs.lib.flatten [
-                nvimTreesitterMain
-                # allParsers
-              ];
-            };
-        in
         {
           # to define and use a new category, simply add a new list to a set here,
           # and later, you will include categoryname = true; in the set you
@@ -507,36 +479,12 @@
         # and also the default command name for it.
         nixCats =
           { pkgs, name, ... }@misc:
-          let
-            mkTsIntegratedPackage =
-              let
-                nvimTreesitterMain = pkgs.vimUtils.buildVimPlugin {
-                  pname = "nvim-treesitter";
-                  version = "git";
-                  src = inputs.nvim-treesitter;
-                  doCheck = false;
-                  nvimSkipModules = [ "nvim-treesitter._meta.parsers" ];
-                };
-
-                allParsers = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
-
-              in
-              # ここが重要！symlinkJoinの結果だけを返す
-              pkgs.symlinkJoin {
-                name = "nvim-treesitter-integrated";
-                paths = pkgs.lib.flatten [
-                  nvimTreesitterMain
-                  allParsers
-                ];
-              };
-          in
-
           {
             # these also recieve our pkgs variable
             # see :help nixCats.flake.outputs.packageDefinitions
             settings = {
 
-              # treesitterParserPath = "${mkTsIntegratedPackage}/parser";
+              treesitterParserPath = "${pkgs.vimPlugins.nvim-treesitter.withAllGrammars}/parser";
               suffix-path = true;
               suffix-LD = true;
               # The name of the package, and the default launch name,
@@ -611,7 +559,7 @@
               # there is also an extra table you can use to pass extra stuff.
               # but you can pass all the same stuff in any of these sets and access it in lua
               nixdExtras = {
-                nixpkgs = ''import ${pkgs.path} {}'';
+                nixpkgs = "import ${pkgs.path} {}";
                 # or inherit nixpkgs;
               };
             };
@@ -681,7 +629,7 @@
               # even though path.to.cat would be an indexing error in that case.
               # this is to mimic the concept of "subcategories" but may get in the way of just fetching values.
               nixdExtras = {
-                nixpkgs = ''import ${pkgs.path} {}'';
+                nixpkgs = "import ${pkgs.path} {}";
                 # or inherit nixpkgs;
               };
               # yes even tortured inputs work.
@@ -764,7 +712,7 @@
             name = defaultPackageName;
             packages = [ defaultPackage ];
             inputsFrom = [ ];
-            shellHook = '''';
+            shellHook = "";
           };
         };
 

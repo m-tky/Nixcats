@@ -135,7 +135,6 @@ require("lze").load({
 			"nvim-navbuddy",
 			"trouble.nvim",
 			"aerial.nvim",
-			"quarto-nvim",
 		},
 	},
 	{

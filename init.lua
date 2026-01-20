@@ -18,10 +18,10 @@ Of course, if you only ever download nvim with nix, this isnt needed.]]
 --[[ function so that it will not throw  ]]
 --[[ an error if not loaded via nixCats  ]]
 --[[ ----------------------------------- ]]
-require('nixCatsUtils').setup {
-  non_nix_value = true,
-}
-require('Default')
+require("nixCatsUtils").setup({
+	non_nix_value = true,
+})
+require("Default")
 --[[
 Nix puts the plugins
 into the directories paq-nvim expects them to be in,
