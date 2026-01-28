@@ -32,6 +32,10 @@
       url = "github:GCBallesteros/jupytext.nvim";
       flake = false;
     };
+    marp-nvim = {
+      url = "github:mpas/marp-nvim";
+      flake = false;
+    };
     nvim-treesitter-textobjects = {
       url = "git+https://github.com/nvim-treesitter/nvim-treesitter-textobjects?ref=main";
       flake = false;
@@ -336,6 +340,14 @@
               ];
               markdown = [
                 pkgs.vimPlugins.render-markdown-nvim
+              ]
+              ++ [
+                (pkgs.vimUtils.buildVimPlugin {
+                  pname = "marp-nvim";
+                  version = "git";
+                  src = inputs.marp-nvim;
+                  doCheck = false;
+                })
               ];
             };
 

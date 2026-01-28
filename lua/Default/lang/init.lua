@@ -62,6 +62,21 @@ require("lze").load({
 				overlay.render_markdown_cells()
 			end, {})
 		end,
-		ft = { "markdown", "python" },
+		ft = { "markdown" },
+	},
+	{
+		"marp-nvim",
+		after = function()
+			require("marp").setup({
+				port = 8080,
+				wait_for_response_timeout = 30,
+				wait_for_response_delay = 1,
+			})
+		end,
+		keys = {
+			{ "<leader>MT", "<cmd>MarpToggle<CR>", mode = "", desc = "Toggle Marp", silent = true },
+			{ "<leader>MS", "<cmd>MarpStatus<CR>", mode = "", desc = "Marp Status", silent = true },
+		},
+		ft = { "markdown" },
 	},
 })

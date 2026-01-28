@@ -684,7 +684,7 @@ require("lze").load({
 				{ "<leader>g", group = "Git" },
 				{ "<leader>h", group = "Gitsigns" },
 				{ "<leader>l", group = "LSP" },
-				{ "<leader>M", group = "Molten" },
+				{ "<leader>M", group = "Marp" },
 				{ "<leader>j", group = "Jovian" },
 				{ "<leader>s", group = "Surround" },
 
