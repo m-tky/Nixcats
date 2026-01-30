@@ -10,14 +10,15 @@ require("lze").load({
 		lazy = true,
 		after = function()
 			require("copilot").setup({
-        panel = { enabled = false }, suggestion = { enabled = false }
-        filetypes = {
-          yaml = true,
-          markdown = true,
-          gitcommit = true,
-          gitrebase = true,
-        },
-      })
+				panel = { enabled = false },
+				suggestion = { enabled = false },
+				filetypes = {
+					yaml = true,
+					markdown = true,
+					gitcommit = true,
+					gitrebase = true,
+				},
+			})
 		end,
 	},
 	{
