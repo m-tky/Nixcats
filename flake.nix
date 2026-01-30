@@ -26,7 +26,6 @@
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
     jovian-nvim = {
       url = "git+https://github.com/m-tky/jovian.nvim?ref=dev";
-      # url = "/home/user/Code/jovian.nvim";
       flake = false;
     };
     jupytext-nvim = {
@@ -39,6 +38,10 @@
     };
     nvim-treesitter-textobjects = {
       url = "git+https://github.com/nvim-treesitter/nvim-treesitter-textobjects?ref=main";
+      flake = false;
+    };
+    marp-nvim = {
+      url = "git+https://github.com/mpas/marp-nvim";
       flake = false;
     };
 
@@ -135,7 +138,7 @@
                 nvimSkipModules = [ "nvim-treesitter._meta.parsers" ];
               };
 
-              # allParsers = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
+              allParsers = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
 
             in
             # ここが重要！symlinkJoinの結果だけを返す
@@ -143,7 +146,7 @@
               name = "nvim-treesitter-integrated";
               paths = pkgs.lib.flatten [
                 nvimTreesitterMain
-                # allParsers
+                allParsers
               ];
             };
         in
@@ -287,31 +290,33 @@
           # `:NixCats pawsible` command to see them all
           optionalPlugins = {
 
-            ui = with pkgs.vimPlugins; [
-              nvim-treesitter-textobjects
-              nvim-treesitter-context
-              nvim-treesitter.withAllGrammars
-              transparent-nvim
-              rainbow-delimiters-nvim
-              nvim-highlight-colors
-              gitsigns-nvim
-              git-conflict-nvim
-              lualine-nvim
-              nvim-web-devicons
-              nvim-scrollview
-              hlchunk-nvim
-              hlargs-nvim
-            ];
-            # ++ [
-            #   (pkgs.vimUtils.buildVimPlugin {
-            #     pname = "nvim-treesitter-textobjects";
-            #     version = "git";
-            #     src = inputs.nvim-treesitter-textobjects;
-            #   })
-            # ]
-            # ++ [
-            #   mkTsIntegratedPackage
-            # ];
+            ui =
+              with pkgs.vimPlugins;
+              [
+                transparent-nvim
+                nvim-treesitter-context
+                rainbow-delimiters-nvim
+                smear-cursor-nvim
+                nvim-highlight-colors
+                gitsigns-nvim
+                git-conflict-nvim
+                lualine-nvim
+                neoscroll-nvim
+                nvim-web-devicons
+                nvim-scrollview
+                hlchunk-nvim
+                hlargs-nvim
+              ]
+              ++ [
+                (pkgs.vimUtils.buildVimPlugin {
+                  pname = "nvim-treesitter-textobjects";
+                  version = "git";
+                  src = inputs.nvim-treesitter-textobjects;
+                })
+              ]
+              ++ [
+                mkTsIntegratedPackage
+              ];
 
             edit = with pkgs.vimPlugins; [
               comment-nvim
@@ -364,6 +369,13 @@
               ];
               markdown = [
                 pkgs.vimPlugins.render-markdown-nvim
+              ]
+              ++ [
+                (pkgs.vimUtils.buildVimPlugin {
+                  pname = "marp-nvim";
+                  version = "git";
+                  src = inputs.marp-nvim;
+                })
               ];
             };
 
@@ -536,7 +548,7 @@
             # see :help nixCats.flake.outputs.packageDefinitions
             settings = {
 
-              # treesitterParserPath = "${mkTsIntegratedPackage}/parser";
+              treesitterParserPath = "${mkTsIntegratedPackage}/parser";
               suffix-path = true;
               suffix-LD = true;
               # The name of the package, and the default launch name,
@@ -611,7 +623,7 @@
               # there is also an extra table you can use to pass extra stuff.
               # but you can pass all the same stuff in any of these sets and access it in lua
               nixdExtras = {
-                nixpkgs = ''import ${pkgs.path} {}'';
+                nixpkgs = "import ${pkgs.path} {}";
                 # or inherit nixpkgs;
               };
             };
@@ -681,7 +693,7 @@
               # even though path.to.cat would be an indexing error in that case.
               # this is to mimic the concept of "subcategories" but may get in the way of just fetching values.
               nixdExtras = {
-                nixpkgs = ''import ${pkgs.path} {}'';
+                nixpkgs = "import ${pkgs.path} {}";
                 # or inherit nixpkgs;
               };
               # yes even tortured inputs work.
@@ -744,7 +756,7 @@
 
         # this pkgs variable is just for using utils such as pkgs.mkShell
         # within this outputs set.
-        pkgs = import nixpkgs { localSystem = { inherit system; }; };
+        pkgs = import nixpkgs { inherit system; };
         # The one used to build neovim is resolved inside the builder
         # and is passed to our categoryDefinitions and packageDefinitions
       in
@@ -764,7 +776,7 @@
             name = defaultPackageName;
             packages = [ defaultPackage ];
             inputsFrom = [ ];
-            shellHook = '''';
+            shellHook = "";
           };
         };
 
