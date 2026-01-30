@@ -35,11 +35,11 @@
     },
     "nixCats": {
       "locked": {
-        "lastModified": 1764009888,
-        "narHash": "sha256-hJekfTiW1792txgRSM4LcHnz1lDSY87LYbsJEn2V378=",
+        "lastModified": 1769578476,
+        "narHash": "sha256-4+KbiBcC6hQ3sh0UbPXjy6TOfLh9yhskRlfPzyZ2FH4=",
         "owner": "BirdeeHub",
         "repo": "nixCats-nvim",
-        "rev": "16ac3281f322ea15d39843829e42a44d22da3715",
+        "rev": "48f8be4bdafccfa19ceaaf08071a15eca36fdb1d",
         "type": "github"
       },
       "original": {
@@ -50,11 +50,11 @@
     },
     "nixpkgs": {
       "locked": {
-        "lastModified": 1765270179,
-        "narHash": "sha256-g2a4MhRKu4ymR4xwo+I+auTknXt/+j37Lnf0Mvfl1rE=",
+        "lastModified": 1769527094,
+        "narHash": "sha256-xV20Alb7ZGN7qujnsi5lG1NckSUmpIb05H2Xar73TDc=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "677fbe97984e7af3175b6c121f3c39ee5c8d62c9",
+        "rev": "afce96367b2e37fc29afb5543573cd49db3357b7",
         "type": "github"
       },
       "original": {
@@ -67,11 +67,11 @@
     "nvim-treesitter": {
       "flake": false,
       "locked": {
-        "lastModified": 1765274540,
-        "narHash": "sha256-8wZhhvlJL0+i4OyVMile23tJvw3kxn2RwjaDkihCUC4=",
+        "lastModified": 1769700152,
+        "narHash": "sha256-mSITjO17z0gP+8QX24BOqccGN7R+05iddWF0N8cSacc=",
         "ref": "main",
-        "rev": "b6271b678e035a5cbf62d637364f3eeca0890171",
-        "revCount": 6260,
+        "rev": "19c729dae6e0eeb79423df0cf37780aa9a7cc3b7",
+        "revCount": 6324,
         "type": "git",
         "url": "https://github.com/nvim-treesitter/nvim-treesitter"
       },
@@ -84,11 +84,11 @@
     "nvim-treesitter-textobjects": {
       "flake": false,
       "locked": {
-        "lastModified": 1765057291,
-        "narHash": "sha256-k4U3MGs01DBeb1NZDF3C8uerRAo4o+CZMhy5v3Ub1BU=",
+        "lastModified": 1769600306,
+        "narHash": "sha256-J3D+nbalJqZ4aeFBD7veW6TuI0BEU2jbx5pMEew4dkA=",
         "ref": "main",
-        "rev": "76deedf0f1cec4496ef8d49b6d1f020f6d0c6ec9",
-        "revCount": 686,
+        "rev": "a0e182ae21fda68c59d1f36c9ed45600aef50311",
+        "revCount": 697,
         "type": "git",
         "url": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
       },
