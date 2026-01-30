@@ -744,7 +744,7 @@
 
         # this pkgs variable is just for using utils such as pkgs.mkShell
         # within this outputs set.
-        pkgs = import nixpkgs { inherit system; };
+        pkgs = import nixpkgs { localSystem = { inherit system; }; };
         # The one used to build neovim is resolved inside the builder
         # and is passed to our categoryDefinitions and packageDefinitions
       in
