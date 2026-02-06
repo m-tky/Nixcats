@@ -32,10 +32,10 @@
       url = "github:GCBallesteros/jupytext.nvim";
       flake = false;
     };
-    nvim-treesitter = {
-      url = "git+https://github.com/nvim-treesitter/nvim-treesitter?ref=main";
-      flake = false;
-    };
+    # nvim-treesitter = {
+    #   url = "git+https://github.com/nvim-treesitter/nvim-treesitter?ref=main";
+    #   flake = false;
+    # };
     nvim-treesitter-textobjects = {
       url = "git+https://github.com/nvim-treesitter/nvim-treesitter-textobjects?ref=main";
       flake = false;
@@ -127,29 +127,29 @@
           mkPlugin,
           ...
         }@packageDef:
-        let
-          mkTsIntegratedPackage =
-            let
-              nvimTreesitterMain = pkgs.vimUtils.buildVimPlugin {
-                pname = "nvim-treesitter";
-                version = "git";
-                src = inputs.nvim-treesitter;
-                doCheck = false;
-                nvimSkipModules = [ "nvim-treesitter._meta.parsers" ];
-              };
-
-              allParsers = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
-
-            in
-            # ここが重要！symlinkJoinの結果だけを返す
-            pkgs.symlinkJoin {
-              name = "nvim-treesitter-integrated";
-              paths = pkgs.lib.flatten [
-                nvimTreesitterMain
-                allParsers
-              ];
-            };
-        in
+        # let
+        # mkTsIntegratedPackage =
+        #   let
+        #     nvimTreesitterMain = pkgs.vimUtils.buildVimPlugin {
+        #       pname = "nvim-treesitter";
+        #       version = "git";
+        #       src = inputs.nvim-treesitter;
+        #       doCheck = false;
+        #       nvimSkipModules = [ "nvim-treesitter._meta.parsers" ];
+        #     };
+        #
+        #     allParsers = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
+        #
+        #   in
+        #   # ここが重要！symlinkJoinの結果だけを返す
+        #   pkgs.symlinkJoin {
+        #     name = "nvim-treesitter-integrated";
+        #     paths = pkgs.lib.flatten [
+        #       nvimTreesitterMain
+        #       allParsers
+        #     ];
+        #   };
+        # in
         {
           # to define and use a new category, simply add a new list to a set here,
           # and later, you will include categoryname = true; in the set you
@@ -295,6 +295,8 @@
               [
                 transparent-nvim
                 nvim-treesitter-context
+                # nvim-treesitter
+                nvim-treesitter.withAllGrammars
                 rainbow-delimiters-nvim
                 smear-cursor-nvim
                 nvim-highlight-colors
@@ -313,10 +315,10 @@
                   version = "git";
                   src = inputs.nvim-treesitter-textobjects;
                 })
-              ]
-              ++ [
-                mkTsIntegratedPackage
               ];
+            # ++ [
+            #   mkTsIntegratedPackage
+            # ];
 
             edit = with pkgs.vimPlugins; [
               comment-nvim
@@ -519,36 +521,36 @@
         # and also the default command name for it.
         nixCats =
           { pkgs, name, ... }@misc:
-          let
-            mkTsIntegratedPackage =
-              let
-                nvimTreesitterMain = pkgs.vimUtils.buildVimPlugin {
-                  pname = "nvim-treesitter";
-                  version = "git";
-                  src = inputs.nvim-treesitter;
-                  doCheck = false;
-                  nvimSkipModules = [ "nvim-treesitter._meta.parsers" ];
-                };
-
-                allParsers = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
-
-              in
-              # ここが重要！symlinkJoinの結果だけを返す
-              pkgs.symlinkJoin {
-                name = "nvim-treesitter-integrated";
-                paths = pkgs.lib.flatten [
-                  nvimTreesitterMain
-                  allParsers
-                ];
-              };
-          in
+          # let
+          #   mkTsIntegratedPackage =
+          #     let
+          #       nvimTreesitterMain = pkgs.vimUtils.buildVimPlugin {
+          #         pname = "nvim-treesitter";
+          #         version = "git";
+          #         src = inputs.nvim-treesitter;
+          #         doCheck = false;
+          #         nvimSkipModules = [ "nvim-treesitter._meta.parsers" ];
+          #       };
+          #
+          #       allParsers = pkgs.vimPlugins.nvim-treesitter.withAllGrammars.dependencies;
+          #
+          #     in
+          #     # ここが重要！symlinkJoinの結果だけを返す
+          #     pkgs.symlinkJoin {
+          #       name = "nvim-treesitter-integrated";
+          #       paths = pkgs.lib.flatten [
+          #         nvimTreesitterMain
+          #         allParsers
+          #       ];
+          #     };
+          # in
 
           {
             # these also recieve our pkgs variable
             # see :help nixCats.flake.outputs.packageDefinitions
             settings = {
 
-              treesitterParserPath = "${mkTsIntegratedPackage}/parser";
+              treesitterParserPath = "${pkgs.vimPlugins.nvim-treesitter.withAllGrammars}/parser";
               suffix-path = true;
               suffix-LD = true;
               # The name of the package, and the default launch name,

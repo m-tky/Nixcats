@@ -6,17 +6,16 @@ require("lze").load({
 		end,
 		ft = { "typ" },
 	},
-  {
-    "marp-nvim",
-    after = function()
-      require("marp-nvim").setup({
-      })
-    end,
-    keys = {
-      { "<leader>MT", "<cmd>MarpToggle<cr>", mode = "", desc = "Toggle Marp", silent = true },
-      { "<leader>MS", "<cmd>MarpStatus<cr>", mode = "", desc = "Marp Status", silent = true },
-    }
-  }
+	{
+		"marp-nvim",
+		after = function()
+			require("marp-nvim").setup({})
+		end,
+		keys = {
+			{ "<leader>MT", "<cmd>MarpToggle<cr>", mode = "", desc = "Toggle Marp", silent = true },
+			{ "<leader>MS", "<cmd>MarpStatus<cr>", mode = "", desc = "Marp Status", silent = true },
+		},
+	},
 	{
 		"render-markdown.nvim",
 		after = function()

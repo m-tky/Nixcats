@@ -151,7 +151,7 @@ require("lze").load({
 	--   },
 	-- },
 	{
-		"nvim-treesitter-integrated",
+		"nvim-treesitter",
 		dep_of = {
 			"nvim-treesitter-textobjects",
 			"nvim-treesitter-context",
