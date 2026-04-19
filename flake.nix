@@ -273,7 +273,7 @@
             # :help nixCats.flake.outputs.categoryDefinitions.scheme
             themer =
               with pkgs.vimPlugins;
-              (builtins.getAttr (categories.colorscheme or "catppuccin") {
+              (builtins.getAttr (categories.colorscheme or "onedark") {
                 # Theme switcher without creating a new category
                 "onedark" = onedark-nvim;
                 "catppuccin" = catppuccin-nvim;
@@ -618,7 +618,7 @@
               # you could also pass something else:
               # see :help nixCats
               themer = true;
-              colorscheme = "catppuccin";
+              colorscheme = "onedark";
             };
             extra = {
               # to keep the categories table from being filled with non category things that you want to pass
@@ -686,7 +686,7 @@
               yaml = true;
               docker = true;
               themer = true;
-              colorscheme = "catppuccin";
+              colorscheme = "onedark";
             };
             extra = {
               # nixCats.extra("path.to.val") will perform vim.tbl_get(nixCats.extra, "path" "to" "val")

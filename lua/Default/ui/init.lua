@@ -1,38 +1,51 @@
 local colorschemeName = nixCats("colorscheme")
-if not require("nixCatsUtils").isNixCats then
-	colorschemeName = "catppuccin"
-end
+-- if not require("nixCatsUtils").isNixCats then
+-- 	colorschemeName = "onedark"
+-- end
 
-require("catppuccin").setup({
-	flavour = "mocha",
-	transparent_background = true,
-	integrations = {
-		aerial = true,
-		blink_cmp = {
-			style = "rounded",
-		},
-		diffview = true,
-		fidget = true,
-		gitsigns = true,
-		noice = true,
-		notify = true,
-		treesitter_context = true,
-		vimwiki = true,
-		lsp_trouble = true,
-		which_key = true,
-		nvim_surround = true,
-		navic = {
-			enabled = false,
-			custom_bg = "NONE",
-		},
-		snacks = {
-			enabled = true,
-			indent_scope_color = "lavender",
-		},
+require("onedark").setup({
+	style = "darker",
+	transparent = true,
+	code_style = {
+		comments = "italic",
+		keywords = "italic",
+		functions = "none",
+		strings = "none",
+		variables = "none",
 	},
 })
 
-vim.cmd.colorscheme(colorschemeName)
+require("onedark").load()
+-- require("catppuccin").setup({
+-- 	flavour = "mocha",
+-- 	transparent_background = true,
+-- 	integrations = {
+-- 		aerial = true,
+-- 		blink_cmp = {
+-- 			style = "rounded",
+-- 		},
+-- 		diffview = true,
+-- 		fidget = true,
+-- 		gitsigns = true,
+-- 		noice = true,
+-- 		notify = true,
+-- 		treesitter_context = true,
+-- 		vimwiki = true,
+-- 		lsp_trouble = true,
+-- 		which_key = true,
+-- 		nvim_surround = true,
+-- 		navic = {
+-- 			enabled = false,
+-- 			custom_bg = "NONE",
+-- 		},
+-- 		snacks = {
+-- 			enabled = true,
+-- 			indent_scope_color = "lavender",
+-- 		},
+-- 	},
+-- })
+
+-- vim.cmd.colorscheme(colorschemeName)
 
 require("lze").load({
 	{
@@ -438,7 +451,7 @@ require("lze").load({
 
 			require("lualine").setup({
 				option = {
-					theme = "catppuccin",
+					theme = "onedark",
 					globalstatus = true,
 				},
 				sections = {
