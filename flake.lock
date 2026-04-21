@@ -9,12 +9,12 @@
         "rev": "20222ff49e62db7e512db510eee012d4d8466cba",
         "revCount": 116,
         "type": "git",
-        "url": "https://github.com/m-tky/jovian.nvim"
+        "url": "ssh://forgejo/takuya/jovian.nvim.git"
       },
       "original": {
         "ref": "dev",
         "type": "git",
-        "url": "https://github.com/m-tky/jovian.nvim"
+        "url": "ssh://forgejo/takuya/jovian.nvim.git"
       }
     },
     "jupytext-nvim": {

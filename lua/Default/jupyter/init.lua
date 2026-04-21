@@ -2,7 +2,9 @@ require("lze").load({
 	{
 		"jupytext-nvim",
 		after = function()
-			require("jupytext").setup({})
+			require("jupytext").setup({
+				output_extension = "py",
+			})
 		end,
 	},
 	{
