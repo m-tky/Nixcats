@@ -13,6 +13,7 @@ require("lze").load({
 				panel = { enabled = false },
 				suggestion = { enabled = false },
 				filetypes = {
+					["*"] = false,
 					yaml = true,
 					markdown = true,
 					gitcommit = true,
