@@ -126,12 +126,12 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 vim.api.nvim_create_autocmd("FileType", {
-	pattern = { "text", "markdown", "typst" },
+	pattern = { "text", "markdown", "typst", "python" },
 	callback = function()
 		local o = vim.opt_local
 		o.wrap = true
 		o.linebreak = true
-		o.showbreak = "↪\\"
+		o.showbreak = "↪"
 	end,
 })
 -- jk で ESC
