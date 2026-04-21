@@ -3,11 +3,11 @@
     "jovian-nvim": {
       "flake": false,
       "locked": {
-        "lastModified": 1765800704,
-        "narHash": "sha256-c0g1Oikvaw1WBo28DwCA6s+BpExZ5D6F3iXMzfRrUp0=",
+        "lastModified": 1776797450,
+        "narHash": "sha256-FQUQFGElGQywkCoM0Ru3tYR4X/BEYf8QSfRwfF6l1LY=",
         "ref": "dev",
-        "rev": "20222ff49e62db7e512db510eee012d4d8466cba",
-        "revCount": 116,
+        "rev": "43dca0aa051107188bc02e480d9a9e7a4a7a72ca",
+        "revCount": 117,
         "type": "git",
         "url": "ssh://forgejo/takuya/jovian.nvim.git"
       },
