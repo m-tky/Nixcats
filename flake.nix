@@ -226,6 +226,7 @@
               sqlfluff
             ];
             typst = with pkgs; [
+              websocat # dependency for typst-preview
               tinymist
             ];
             yaml = with pkgs; [
@@ -279,6 +280,7 @@
                 # Theme switcher without creating a new category
                 "onedark" = onedark-nvim;
                 "catppuccin" = catppuccin-nvim;
+                "nightfox" = nightfox-nvim;
                 "tokyonight" = tokyonight-nvim;
                 "tokyonight-day" = tokyonight-nvim;
               });
@@ -423,7 +425,6 @@
           # variable available to nvim runtime
           sharedLibraries = {
             general = with pkgs; [
-              websocat # dependency for typst-preview
               # <- this would be included if any of the subcategories of general are
               # libgit2
             ];
@@ -621,7 +622,7 @@
               # you could also pass something else:
               # see :help nixCats
               themer = true;
-              colorscheme = "onedark";
+              colorscheme = "nightfox";
             };
             extra = {
               # to keep the categories table from being filled with non category things that you want to pass

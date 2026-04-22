@@ -3,19 +3,37 @@ local colorschemeName = nixCats("colorscheme")
 -- 	colorschemeName = "onedark"
 -- end
 
-require("onedark").setup({
-	style = "darker",
-	transparent = true,
-	code_style = {
-		comments = "italic",
-		keywords = "italic",
-		functions = "none",
-		strings = "none",
-		variables = "none",
+require("nightfox").setup({
+	options = {
+		transparent = true,
+		dim_inactive = true,
+		styles = {
+			comments = "italic", -- コメントはitalicで本文と区別
+			conditionals = "NONE", -- if/else は装飾なしでシンプルに
+			constants = "bold", -- 定数は目立たせる
+			functions = "bold", -- 関数名は読みやすくbold
+			keywords = "NONE", -- キーワードは色だけで十分
+			numbers = "NONE", -- 数値に装飾は不要
+			operators = "NONE", -- 演算子もシンプルに
+			strings = "italic", -- 文字列はitalicで区別
+			types = "bold,italic", -- 型名は強調（型ヒント多用するなら特に）
+			variables = "NONE", -- 変数は色だけで十分
+		},
 	},
 })
+-- require("onedark").setup({
+-- 	style = "darker",
+-- 	transparent = true,
+-- 	code_style = {
+-- 		comments = "italic",
+-- 		keywords = "italic",
+-- 		functions = "none",
+-- 		strings = "none",
+-- 		variables = "none",
+-- 	},
+-- })
 
-require("onedark").load()
+-- require("onedark").load()
 -- require("catppuccin").setup({
 -- 	flavour = "mocha",
 -- 	transparent_background = true,
@@ -45,7 +63,7 @@ require("onedark").load()
 -- 	},
 -- })
 
--- vim.cmd.colorscheme(colorschemeName)
+vim.cmd.colorscheme(colorschemeName)
 
 require("lze").load({
 	{

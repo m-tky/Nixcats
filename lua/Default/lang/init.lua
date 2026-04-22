@@ -3,7 +3,11 @@ require("lze").load({
 		"typst-preview.nvim",
 		after = function()
 			require("typst-preview").setup({
-				dependencies_bin = { tinymist = "tinymist", websocat = "websocat" },
+				-- dependencies_bin = { tinymist = "tinymist", websocat = "websocat" },
+				dependencies_bin = {
+					tinymist = vim.fn.exepath("tinymist"),
+					websocat = vim.fn.exepath("websocat"),
+				},
 				invert_colors = "auto",
 			})
 		end,
