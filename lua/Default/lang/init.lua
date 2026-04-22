@@ -2,9 +2,12 @@ require("lze").load({
 	{
 		"typst-preview.nvim",
 		after = function()
-			require("typst-preview").setup({ dependencies_bin = { tinymist = "tinymist", websocat = "websocat" } })
+			require("typst-preview").setup({
+				dependencies_bin = { tinymist = "tinymist", websocat = "websocat" },
+				invert_colors = "auto",
+			})
 		end,
-		ft = { "typ" },
+		ft = { "typst" },
 	},
 	{
 		"marp-nvim",

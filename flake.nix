@@ -423,6 +423,7 @@
           # variable available to nvim runtime
           sharedLibraries = {
             general = with pkgs; [
+              websocat # dependency for typst-preview
               # <- this would be included if any of the subcategories of general are
               # libgit2
             ];
