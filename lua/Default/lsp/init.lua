@@ -72,7 +72,7 @@ require("lze").load({
 	},
 	{
 		"nvim-lspconfig",
-		event = "LspAttach",
+		event = "DeferredUIEnter",
 		after = function(_)
 			vim.diagnostic.config({
 				signs = {

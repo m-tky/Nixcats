@@ -6,7 +6,7 @@ local colorschemeName = nixCats("colorscheme")
 require("nightfox").setup({
 	options = {
 		transparent = true,
-		dim_inactive = true,
+		dim_inactive = false,
 		styles = {
 			comments = "italic", -- コメントはitalicで本文と区別
 			conditionals = "NONE", -- if/else は装飾なしでシンプルに
@@ -187,6 +187,7 @@ require("lze").load({
 			"nvim-treesitter-textobjects",
 			"nvim-treesitter-context",
 			"rainbow-delimiters.nvim",
+			"otter-nvim",
 		},
 		after = function(_)
 			-- require("nvim-treesitter").install({
