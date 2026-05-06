@@ -274,7 +274,7 @@
             # :help nixCats.flake.outputs.categoryDefinitions.scheme
             themer =
               with pkgs.vimPlugins;
-              (builtins.getAttr (categories.colorscheme or "onedark") {
+              (builtins.getAttr (categories.colorscheme or "nightfox") {
                 # Theme switcher without creating a new category
                 "onedark" = onedark-nvim;
                 "catppuccin" = catppuccin-nvim;
@@ -689,7 +689,7 @@
               yaml = true;
               docker = true;
               themer = true;
-              colorscheme = "onedark";
+              colorscheme = "nightfox";
             };
             extra = {
               # nixCats.extra("path.to.val") will perform vim.tbl_get(nixCats.extra, "path" "to" "val")
