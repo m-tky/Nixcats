@@ -87,11 +87,6 @@ vim.diagnostic.config({
 	update_in_insert = false,
 })
 
-vim.lsp.handlers["textDocument/publishDiagnostics"] = vim.lsp.buf(vim.lsp.diagnostic.on_publish_diagnostics, {
-	-- ここでもタイプ中の更新を無効にする
-	update_in_insert = false,
-})
-
 -- }}}
 -- fcitx5 Japanese IME 自動切替
 local fcitx5state = vim.fn.system("fcitx5-remote"):sub(1, 1)
