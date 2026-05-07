@@ -24,9 +24,8 @@
   inputs = {
     nixpkgs.url = "github:nixos/nixpkgs/nixpkgs-unstable";
     nixCats.url = "github:BirdeeHub/nixCats-nvim";
-    jovian-nvim = {
+    jovian = {
       url = "github:m-tky/jovian.nvim";
-      flake = false;
     };
     jupytext-nvim = {
       url = "github:GCBallesteros/jupytext.nvim";
@@ -104,6 +103,7 @@
           # Once we add this overlay to our nixpkgs, we are able to
           # use `pkgs.neovimPlugins`, which is a set of our plugins.
           (utils.standardPluginOverlay inputs)
+          inputs.jovian.overlays.default
           # add any other flake overlays here.
 
           # when other people mess up their overlays by wrapping them with system,
@@ -234,6 +234,9 @@
             ];
             docker = with pkgs; [
               hadolint
+            ];
+            jupyter = [
+              pkgs.jovian-minimal-python
             ];
 
             # per nvim package you export
@@ -384,27 +387,16 @@
               ];
             };
 
-            jupyter =
-              with pkgs.vimPlugins;
-              [
-                hydra-nvim
-                image-nvim
-              ]
-              ++ [
-                (pkgs.vimUtils.buildVimPlugin {
-                  pname = "jovian-nvim";
-                  version = "git";
-                  src = inputs.jovian-nvim;
-                  doCheck = false;
-                })
-              ]
-              ++ [
-                (pkgs.vimUtils.buildVimPlugin {
-                  pname = "jupytext-nvim";
-                  version = "git";
-                  src = inputs.jupytext-nvim;
-                })
-              ];
+            jupyter = with pkgs.vimPlugins; [
+              hydra-nvim
+              image-nvim
+              jovian-nvim
+              (pkgs.vimUtils.buildVimPlugin {
+                pname = "jupytext-nvim";
+                version = "git";
+                src = inputs.jupytext-nvim;
+              })
+            ];
 
             cmp = with pkgs.vimPlugins; [
               friendly-snippets
