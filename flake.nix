@@ -27,6 +27,9 @@
     jovian = {
       url = "github:m-tky/jovian.nvim";
     };
+    jupynvim = {
+      url = "github:m-tky/jupynvim";
+    };
     jupytext-nvim = {
       url = "github:GCBallesteros/jupytext.nvim";
       flake = false;
@@ -104,6 +107,7 @@
           # use `pkgs.neovimPlugins`, which is a set of our plugins.
           (utils.standardPluginOverlay inputs)
           inputs.jovian.overlays.default
+          inputs.jupynvim.overlays.default
           # add any other flake overlays here.
 
           # when other people mess up their overlays by wrapping them with system,
@@ -391,11 +395,12 @@
               hydra-nvim
               image-nvim
               jovian-nvim
-              (pkgs.vimUtils.buildVimPlugin {
-                pname = "jupytext-nvim";
-                version = "git";
-                src = inputs.jupytext-nvim;
-              })
+              jupynvim
+              # (pkgs.vimUtils.buildVimPlugin {
+              #   pname = "jupytext-nvim";
+              #   version = "git";
+              #   src = inputs.jupytext-nvim;
+              # })
             ];
 
             cmp = with pkgs.vimPlugins; [

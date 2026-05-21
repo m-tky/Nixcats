@@ -8,6 +8,25 @@ require("lze").load({
 		end,
 	},
 	{
+		"sheng-tse/jupynvim",
+		build = function(plugin)
+			local install = loadfile(plugin.dir .. "/lua/jupynvim/install.lua")()
+			install.run(plugin)
+		end,
+		config = function()
+			require("jupynvim").setup({
+				log_level = "info",
+				image_renderer = "kitty", -- "placeholder", "kitty", or "chafa"
+			})
+		end,
+		keys = {
+			{ "<leader>nr", "<cmd>JupynvimRunCell", desc = "Run Current Cell" },
+			{ "<leader>nA", "<cmd>JupynvimRunAll<cr>", desc = "Run All Cells" },
+			{ "<leader>ncc", "<cmd>JupynvimClearCellOutput", desc = "Clear Current Cell" },
+			{ "<leader>nco", "<cmd>JupynvimClearOutputs", desc = "Clear Current Cell" },
+		},
+	},
+	{
 		"jovian-nvim",
 		ft = "python",
 		after = function()
