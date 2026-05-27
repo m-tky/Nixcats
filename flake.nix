@@ -396,11 +396,11 @@
               image-nvim
               jovian-nvim
               jupynvim
-              # (pkgs.vimUtils.buildVimPlugin {
-              #   pname = "jupytext-nvim";
-              #   version = "git";
-              #   src = inputs.jupytext-nvim;
-              # })
+              (pkgs.vimUtils.buildVimPlugin {
+                pname = "jupytext-nvim";
+                version = "git";
+                src = inputs.jupytext-nvim;
+              })
             ];
 
             cmp = with pkgs.vimPlugins; [
