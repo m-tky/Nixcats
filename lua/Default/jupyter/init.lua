@@ -8,29 +8,13 @@ require("lze").load({
 		end,
 	},
 	{
-		"sheng-tse/jupynvim",
-		build = function(plugin)
-			local install = loadfile(plugin.dir .. "/lua/jupynvim/install.lua")()
-			install.run(plugin)
-		end,
-		config = function()
-			require("jupynvim").setup({
-				log_level = "info",
-				image_renderer = "kitty", -- "placeholder", "kitty", or "chafa"
-			})
-		end,
-		keys = {
-			{ "<leader>nr", "<cmd>JupynvimRunCell", desc = "Run Current Cell" },
-			{ "<leader>nA", "<cmd>JupynvimRunAll<cr>", desc = "Run All Cells" },
-			{ "<leader>ncc", "<cmd>JupynvimClearCellOutput", desc = "Clear Current Cell" },
-			{ "<leader>nco", "<cmd>JupynvimClearOutputs", desc = "Clear Current Cell" },
-		},
-	},
-	{
 		"jovian-nvim",
 		ft = "python",
 		after = function()
 			require("jovian").setup({
+				cell_frame = true, -- bordered cell cards
+				markdown_cell_style = true, -- styled markdown cells
+				inline_outputs = true, -- output rendered below cells
 				ui_symbols = {
 					running = " ",
 					done = " ",
@@ -70,19 +54,6 @@ require("lze").load({
 			{ "<leader>jD", "<cmd>JovianDoc<cr>", desc = "Inspect Object Docstring" },
 			{ "<leader>jP", "<cmd>JovianPeek<cr>", desc = "Peek Object Info" },
 		},
-	},
-	{
-		"image.nvim",
-		dep_of = { "jovian-nvim" },
-		after = function()
-			require("image").setup({
-				backend = "kitty",
-				processor = "magick_cli",
-				max_width_window_percentage = 100,
-				max_height_window_percentage = 100,
-				window_overlap_clear_enabled = true,
-			})
-		end,
 	},
 	{
 		"hydra.nvim",

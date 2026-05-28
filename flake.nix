@@ -107,7 +107,6 @@
           # use `pkgs.neovimPlugins`, which is a set of our plugins.
           (utils.standardPluginOverlay inputs)
           inputs.jovian.overlays.default
-          inputs.jupynvim.overlays.default
           # add any other flake overlays here.
 
           # when other people mess up their overlays by wrapping them with system,
@@ -393,9 +392,7 @@
 
             jupyter = with pkgs.vimPlugins; [
               hydra-nvim
-              image-nvim
               jovian-nvim
-              jupynvim
               (pkgs.vimUtils.buildVimPlugin {
                 pname = "jupytext-nvim";
                 version = "git";
