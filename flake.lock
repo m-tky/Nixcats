@@ -23,11 +23,11 @@
         "nixpkgs": "nixpkgs"
       },
       "locked": {
-        "lastModified": 1780463035,
-        "narHash": "sha256-AyHiIU/UZ4GL9BPXDUt9ACKPY63xKUklZNEit8uyFBs=",
+        "lastModified": 1780474865,
+        "narHash": "sha256-XMpCw050j5yI+MC3LnqZUNyb5971BprutqBFmtEw/rs=",
         "owner": "m-tky",
         "repo": "jovian.nvim",
-        "rev": "9c877b6027b46a91658a2f0826a7cada25eed4ba",
+        "rev": "8b712d81048bfcc4e969e5315ea112ba882ad692",
         "type": "github"
       },
       "original": {
