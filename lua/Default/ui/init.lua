@@ -607,10 +607,10 @@ require("lze").load({
 		end,
 	},
 	{
-		"nvim-scrollview",
+		"nvim-scrollbar",
 		event = { "BufWinEnter", "WinScrolled", "DeferredUIEnter" },
 		after = function(_)
-			require("scrollview").setup({})
+			require("scrollbar").setup({})
 		end,
 	},
 	{

@@ -15,6 +15,7 @@ require("lze").load({
 				cell_frame = true, -- bordered cell cards
 				markdown_cell_style = true, -- styled markdown cells
 				inline_outputs = true, -- output rendered below cells
+				cell_frame_right_pad = 1,
 				ui_symbols = {
 					running = " ",
 					done = " ",

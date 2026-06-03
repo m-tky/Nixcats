@@ -313,7 +313,7 @@
                 lualine-nvim
                 neoscroll-nvim
                 nvim-web-devicons
-                nvim-scrollview
+                nvim-scrollbar
                 hlchunk-nvim
                 hlargs-nvim
               ]
