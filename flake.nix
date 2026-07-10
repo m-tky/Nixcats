@@ -79,8 +79,14 @@
     let
       inherit (inputs.nixCats) utils;
       luaPath = ./.;
-      # this is flake-utils eachSystem
-      forEachSystem = utils.eachSystem nixpkgs.lib.platforms.all;
+      # Restrict outputs to supported desktop platforms. `platforms.all` includes
+      # cross targets that cannot evaluate this Neovim package.
+      forEachSystem = utils.eachSystem [
+        "x86_64-linux"
+        "aarch64-linux"
+        "x86_64-darwin"
+        "aarch64-darwin"
+      ];
       # the following extra_pkg_config contains any values
       # which you want to pass to the config set of nixpkgs
       # import nixpkgs { config = extra_pkg_config; inherit system; }
@@ -196,8 +202,12 @@
               prettier
             ];
             rust = with pkgs; [
+              cargo
+              rustc
+              rustfmt
               rust-analyzer
               clippy
+              lldb
             ];
             lua = with pkgs; [
               luajitPackages.luacheck
@@ -206,7 +216,6 @@
             ];
             nix = with pkgs; [
               nil
-              nixpkgs-fmt
               nixfmt
               deadnix
               statix

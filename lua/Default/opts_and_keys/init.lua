@@ -78,33 +78,31 @@ do
 	end
 end
 
--- settings about diagnostics
-vim.diagnostic.config({
-	virtual_text = false, -- 行末のメッセージを無効化
-	signs = true, -- サインカラムにアイコンを表示
-	underline = true, -- エラーがあるコードに下線を表示
-	severity_sort = true, -- 深刻度でソート
-	update_in_insert = false,
-})
-
 -- }}}
--- fcitx5 Japanese IME 自動切替
-local fcitx5state = vim.fn.system("fcitx5-remote"):sub(1, 1)
-vim.api.nvim_create_autocmd("InsertLeave", {
-	callback = function()
-		fcitx5state = vim.fn.system("fcitx5-remote"):sub(1, 1)
-		vim.fn.system("fcitx5-remote -c")
-	end,
-})
-vim.api.nvim_create_autocmd("InsertEnter", {
-	callback = function()
-		if fcitx5state == "2" then
-			vim.fn.system("fcitx5-remote -o")
-		end
-	end,
-})
--- 書き込み前に行末スペースを削除
+local config_group = vim.api.nvim_create_augroup("DefaultConfig", { clear = true })
+
+-- fcitx5 Japanese IME auto-switching. Keep this optional for non-fcitx hosts.
+if vim.fn.executable("fcitx5-remote") == 1 then
+	local fcitx5state = vim.fn.system("fcitx5-remote"):sub(1, 1)
+	vim.api.nvim_create_autocmd("InsertLeave", {
+		group = config_group,
+		callback = function()
+			fcitx5state = vim.fn.system("fcitx5-remote"):sub(1, 1)
+			vim.fn.system("fcitx5-remote -c")
+		end,
+	})
+	vim.api.nvim_create_autocmd("InsertEnter", {
+		group = config_group,
+		callback = function()
+			if fcitx5state == "2" then
+				vim.fn.system("fcitx5-remote -o")
+			end
+		end,
+	})
+end
+
 vim.api.nvim_create_autocmd("BufWritePre", {
+	group = config_group,
 	pattern = "*",
 	callback = function()
 		vim.cmd([[%s/\\s\\+$//e]])
@@ -112,6 +110,7 @@ vim.api.nvim_create_autocmd("BufWritePre", {
 })
 -- highlight yanked text
 vim.api.nvim_create_autocmd("TextYankPost", {
+	group = config_group,
 	callback = function()
 		vim.highlight.on_yank({
 			higroup = "IncSearch", -- ハイライトに使うグループ
@@ -121,6 +120,7 @@ vim.api.nvim_create_autocmd("TextYankPost", {
 	end,
 })
 vim.api.nvim_create_autocmd("FileType", {
+	group = config_group,
 	pattern = { "text", "markdown", "typst", "python" },
 	callback = function()
 		local o = vim.opt_local

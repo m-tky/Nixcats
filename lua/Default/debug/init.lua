@@ -10,24 +10,17 @@ require("lze").load({
 		dep_of = { "nvim-dap-ui" },
 		lazy = true,
 		after = function(_)
-			local function exists(path)
-				local f = io.open(path, "rb")
-				if f then
-					f:close()
-					return true
-				end
-				return false
-			end
-
 			local dap = require("dap")
 
-			-- c, c++, rust
-			dap.adapters.codelldb = {
+			-- lldb-dap can debug C, C++, and Rust.  The key used here must
+			-- match the `type` field in every configuration below.
+			dap.adapters.lldb = {
 				type = "executable",
 				command = "lldb-dap", -- or if not in $PATH: "/absolute/path/to/codelldb"
+				name = "lldb",
 			}
 
-			local function ask_rebuild_and_build(exe, build_cmd)
+			local function build_if_needed(exe, build_cmd)
 				if vim.fn.filereadable(exe) == 1 then
 					local choice = vim.fn.input(exe .. " exists. Rebuild? (y/N): ")
 					if not (choice == "y" or choice == "Y") then
@@ -41,67 +34,71 @@ require("lze").load({
 				return ok
 			end
 
-			dap.configurations.c = {
-				{
-					name = "Build(if needed) & Launch (C)",
-					type = "codelldb",
+			local function lldb_launch_config(name, program)
+				return {
+					name = name,
+					type = "lldb",
 					request = "launch",
-					program = function()
-						local cwd = vim.fn.getcwd()
-						local exe = cwd .. "/a.out"
-						local src = cwd .. "/main.c" -- 必要なら変更
-						local cmd = string.format("clang -g -O0 -fno-omit-frame-pointer -o %s %s", exe, src)
-						if ask_rebuild_and_build(exe, cmd) then
-							return exe
-						end
-						return nil
-					end,
+					program = program,
 					cwd = "${workspaceFolder}",
 					stopOnEntry = false,
-				},
+				}
+			end
+
+			local function compile_c_family(compiler, source)
+				return function()
+					local cwd = vim.fn.getcwd()
+					local exe = cwd .. "/a.out"
+					local src = cwd .. "/" .. source
+					local cmd = string.format(
+						"%s -g -O0 -fno-omit-frame-pointer -o %s %s",
+						compiler,
+						vim.fn.shellescape(exe),
+						vim.fn.shellescape(src)
+					)
+					return build_if_needed(exe, cmd) and exe or nil
+				end
+			end
+
+			dap.configurations.c = {
+				lldb_launch_config("Build(if needed) & Launch (C)", compile_c_family("clang", "main.c")),
+			}
+			dap.configurations.cpp = {
+				lldb_launch_config("Build(if needed) & Launch (C++)", compile_c_family("clang++", "main.cpp")),
 			}
 
-			dap.configurations.cpp = {
-				{
-					name = "Build(if needed) & Launch (C++)",
-					type = "codelldb",
-					request = "launch",
-					program = function()
-						local cwd = vim.fn.getcwd()
-						local exe = cwd .. "/a.out"
-						local src = cwd .. "/main.cpp" -- 必要なら変更
-						local cmd = string.format("clang++ -g -O0 -fno-omit-frame-pointer -o %s %s", exe, src)
-						if ask_rebuild_and_build(exe, cmd) then
-							return exe
+			local function cargo_binary_target(cargo)
+				local root_id = cargo.resolve and cargo.resolve.root
+				for _, package in ipairs(cargo.packages or {}) do
+					if package.id == root_id then
+						for _, target in ipairs(package.targets) do
+							if vim.tbl_contains(target.kind, "bin") then
+								return target
+							end
 						end
-						return nil
-					end,
-					cwd = "${workspaceFolder}",
-					stopOnEntry = false,
-				},
-			}
+					end
+				end
+			end
 
 			dap.configurations.rust = {
-				{
-					name = "Build(if needed) & Launch (Rust - Cargo)",
-					type = "codelldb",
-					request = "launch",
-					program = function()
-						local cwd = vim.fn.getcwd()
-						-- default: cargo build の出力バイナリ名を自分のクレート名に合わせてください
-						local crate = vim.fn.trim(
-							vim.fn.system("basename $(git rev-parse --show-toplevel 2>/dev/null || echo .)")
-						)
-						local exe = cwd .. "/target/debug/" .. crate
-						local cmd = "cargo build"
-						if ask_rebuild_and_build(exe, cmd) then
-							return exe
-						end
+				lldb_launch_config("Build(if needed) & Launch (Rust - Cargo)", function()
+					local metadata = vim.fn.system({ "cargo", "metadata", "--no-deps", "--format-version", "1" })
+					if vim.v.shell_error ~= 0 then
+						vim.notify("Cargo.toml was not found", vim.log.levels.ERROR)
 						return nil
-					end,
-					cwd = "${workspaceFolder}",
-					stopOnEntry = false,
-				},
+					end
+
+					local ok, cargo = pcall(vim.json.decode, metadata)
+					local target = ok and cargo_binary_target(cargo)
+					if not target then
+						vim.notify("No debuggable binary target was found", vim.log.levels.ERROR)
+						return nil
+					end
+
+					local exe = cargo.target_directory .. "/debug/" .. target.name
+					local cmd = "cargo build"
+					return build_if_needed(exe, cmd) and exe or nil
+				end),
 			}
 
 			-- python
@@ -212,7 +209,6 @@ require("lze").load({
 				function()
 					require("dap").terminate()
 					require("dapui").close()
-					require("nvim-dap-virtual-text").toggle()
 				end,
 				desc = "Terminate",
 			},
@@ -255,7 +251,7 @@ require("lze").load({
 		end,
 		keys = {
 			{
-				"<leader>du",
+				"<leader>dv",
 				function()
 					require("dapui").toggle({})
 				end,

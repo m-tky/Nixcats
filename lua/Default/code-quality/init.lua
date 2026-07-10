@@ -3,8 +3,11 @@ require("lze").load({
 		"nvim-lint",
 		event = { "BufReadPre", "BufNewFile" },
 		after = function(_)
-			require("lint").linters_by_ft = {
-				shell = { "shellcheck" },
+			local lint = require("lint")
+			lint.linters_by_ft = {
+				sh = { "shellcheck" },
+				bash = { "shellcheck" },
+				zsh = { "shellcheck" },
 				python = { "ruff" },
 				lua = { "luacheck" },
 				rust = { "clippy" },
@@ -16,15 +19,11 @@ require("lze").load({
 				docker = { "hadolint" },
 			}
 
-			vim.api.nvim_create_autocmd({ "BufWritePost" }, {
+			local lint_group = vim.api.nvim_create_augroup("DefaultLint", { clear = true })
+			vim.api.nvim_create_autocmd("BufWritePost", {
+				group = lint_group,
 				callback = function()
-					-- try_lint without arguments runs the linters defined in `linters_by_ft`
-					-- for the current filetype
-					require("lint").try_lint()
-
-					-- You can call `try_lint` with a linter name or a list of names to always
-					-- run specific linters, independent of the `linters_by_ft` configuration
-					-- require("lint").try_lint("cspell")
+					lint.try_lint()
 				end,
 			})
 		end,
@@ -47,12 +46,15 @@ require("lze").load({
 		after = function(_)
 			require("conform").setup({
 				formatters_by_ft = {
+					rust = { "rustfmt" },
 					python = { "isort", "black" },
 					markdown = { "prettier" },
 					lua = { "stylua" },
-					nix = { "nixfmt", "nixpkgs-fmt" },
+					nix = { "nixfmt" },
 					cpp = { "clang-format" },
-					shell = { "shellcheck" },
+					sh = { "shfmt" },
+					bash = { "shfmt" },
+					zsh = { "shfmt" },
 					sql = { "sqlfluff" },
 					typst = { "typstyle" },
 					yaml = { "yq" },
@@ -65,7 +67,9 @@ require("lze").load({
 					lsp_format = "never",
 				},
 			})
+			local format_group = vim.api.nvim_create_augroup("DefaultFormat", { clear = true })
 			vim.api.nvim_create_autocmd("BufWritePre", {
+				group = format_group,
 				pattern = "*",
 				callback = function(args)
 					require("conform").format({ bufnr = args.buf })

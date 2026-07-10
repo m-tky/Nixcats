@@ -110,7 +110,6 @@ require("lze").load({
 				"rust_analyzer",
 				"lua_ls",
 				"nil_ls",
-				"ltex_ls",
 				"bashls",
 				"clangd",
 				"sqls",
@@ -124,7 +123,7 @@ require("lze").load({
 			)
 			vim.lsp.config("pyright", {
 				settings = {
-					python = { analysis = { diagnosticServerityOverrides = { reportUnusedExpression = "none" } } },
+					python = { analysis = { diagnosticSeverityOverrides = { reportUnusedExpression = "none" } } },
 				},
 			})
 			vim.lsp.enable(LspList)
@@ -190,164 +189,38 @@ require("lze").load({
 	},
 })
 
-do
-	local __nixvim_autogroups = { nixvim_lsp_binds = { clear = false }, nixvim_lsp_on_attach = { clear = false } }
+local lsp_keymaps = {
+	{ "gd", vim.lsp.buf.definition, "Go to definition" },
+	{ "gD", vim.lsp.buf.references, "Find references" },
+	{ "gt", vim.lsp.buf.type_definition, "Go to type definition" },
+	{ "gi", vim.lsp.buf.implementation, "Go to implementation" },
+	{ "K", vim.lsp.buf.hover, "Hover info" },
+	{
+		"<leader>lk",
+		function()
+			vim.diagnostic.jump({ count = -1, float = true })
+		end,
+		"Previous diagnostic",
+	},
+	{
+		"<leader>lj",
+		function()
+			vim.diagnostic.jump({ count = 1, float = true })
+		end,
+		"Next diagnostic",
+	},
+	{ "<leader>lx", "<CMD>LspStop<CR>", "LSP stop" },
+	{ "<leader>ls", "<CMD>LspStart<CR>", "LSP start" },
+	{ "<leader>lr", "<CMD>LspRestart<CR>", "LSP restart" },
+}
 
-	for group_name, options in pairs(__nixvim_autogroups) do
-		vim.api.nvim_create_augroup(group_name, options)
-	end
-end
--- }}
--- Set up autocommands {{
-do
-	local __nixvim_autocommands = {
-		-- {
-		--     callback = function(event)
-		--         do
-		--             -- client and bufnr are supplied to the builtin `on_attach` callback,
-		--             -- so make them available in scope for our global `onAttach` impl
-		--             local client = vim.lsp.get_client_by_id(event.data.client_id)
-		--             local bufnr = event.buf
-		--             require("lsp-format").on_attach(client, bufnr)
-		--         end
-		--     end,
-		--     desc = "Run LSP onAttach",
-		--     event = "LspAttach",
-		--     group = "nixvim_lsp_on_attach",
-		-- },
-		{
-			callback = function(args)
-				do
-					local map = {
-						action = vim.lsp.buf["definition"],
-						key = "gd",
-						lspBufAction = "definition",
-						mode = "",
-						options = { desc = "Go to definition" },
-					}
-					local options = vim.tbl_extend("keep", map.options or {}, { buffer = args.buf })
-					vim.keymap.set(map.mode, map.key, map.action, options)
-				end
-
-				do
-					local map = {
-						action = vim.lsp.buf["references"],
-						key = "gD",
-						lspBufAction = "references",
-						mode = "",
-						options = { desc = "Find references" },
-					}
-					local options = vim.tbl_extend("keep", map.options or {}, { buffer = args.buf })
-					vim.keymap.set(map.mode, map.key, map.action, options)
-				end
-
-				do
-					local map = {
-						action = vim.lsp.buf["type_definition"],
-						key = "gt",
-						lspBufAction = "type_definition",
-						mode = "",
-						options = { desc = "Go to type definition" },
-					}
-					local options = vim.tbl_extend("keep", map.options or {}, { buffer = args.buf })
-					vim.keymap.set(map.mode, map.key, map.action, options)
-				end
-
-				do
-					local map = {
-						action = vim.lsp.buf["implementation"],
-						key = "gi",
-						lspBufAction = "implementation",
-						mode = "",
-						options = { desc = "Go to implementation" },
-					}
-					local options = vim.tbl_extend("keep", map.options or {}, { buffer = args.buf })
-					vim.keymap.set(map.mode, map.key, map.action, options)
-				end
-
-				do
-					local map = {
-						action = vim.lsp.buf["hover"],
-						key = "K",
-						lspBufAction = "hover",
-						mode = "",
-						options = { desc = "Hover info" },
-					}
-					local options = vim.tbl_extend("keep", map.options or {}, { buffer = args.buf })
-					vim.keymap.set(map.mode, map.key, map.action, options)
-				end
-
-				do
-					local map = {
-						action = function()
-							vim.diagnostic.jump({ count = -1, float = true })
-						end,
-						key = "<leader>lk",
-						mode = "",
-						options = { desc = "Previous diagnostic" },
-					}
-					local options = vim.tbl_extend("keep", map.options or {}, { buffer = args.buf })
-					vim.keymap.set(map.mode, map.key, map.action, options)
-				end
-
-				do
-					local map = {
-						action = function()
-							vim.diagnostic.jump({ count = 1, float = true })
-						end,
-						key = "<leader>lj",
-						mode = "",
-						options = { desc = "Next diagnostic" },
-					}
-					local options = vim.tbl_extend("keep", map.options or {}, { buffer = args.buf })
-					vim.keymap.set(map.mode, map.key, map.action, options)
-				end
-
-				do
-					local map =
-						{ action = "<CMD>LspStop<CR>", key = "<leader>lx", mode = "", options = { desc = "LSP stop" } }
-					local options = vim.tbl_extend("keep", map.options or {}, { buffer = args.buf })
-					vim.keymap.set(map.mode, map.key, map.action, options)
-				end
-
-				do
-					local map = {
-						action = "<CMD>LspStart<CR>",
-						key = "<leader>ls",
-						mode = "",
-						options = { desc = "LSP start" },
-					}
-					local options = vim.tbl_extend("keep", map.options or {}, { buffer = args.buf })
-					vim.keymap.set(map.mode, map.key, map.action, options)
-				end
-
-				do
-					local map = {
-						action = "<CMD>LspRestart<CR>",
-						key = "<leader>lr",
-						mode = "",
-						options = { desc = "LSP restart" },
-					}
-					local options = vim.tbl_extend("keep", map.options or {}, { buffer = args.buf })
-					vim.keymap.set(map.mode, map.key, map.action, options)
-				end
-			end,
-			desc = "Load LSP keymaps",
-			event = "LspAttach",
-			group = "nixvim_lsp_binds",
-		},
-	}
-
-	for _, autocmd in ipairs(__nixvim_autocommands) do
-		vim.api.nvim_create_autocmd(autocmd.event, {
-			group = autocmd.group,
-			pattern = autocmd.pattern,
-			buffer = autocmd.buffer,
-			desc = autocmd.desc,
-			callback = autocmd.callback,
-			command = autocmd.command,
-			once = autocmd.once,
-			nested = autocmd.nested,
-		})
-	end
-end
+local lsp_keymap_group = vim.api.nvim_create_augroup("DefaultLspKeymaps", { clear = true })
+vim.api.nvim_create_autocmd("LspAttach", {
+	group = lsp_keymap_group,
+	desc = "Load LSP keymaps",
+	callback = function(args)
+		for _, map in ipairs(lsp_keymaps) do
+			vim.keymap.set("", map[1], map[2], { buffer = args.buf, desc = map[3] })
+		end
+	end,
+})
