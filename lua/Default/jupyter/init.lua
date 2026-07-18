@@ -1,13 +1,5 @@
 require("lze").load({
 	{
-		"jupytext-nvim",
-		after = function()
-			require("jupytext").setup({
-				output_extension = "py",
-			})
-		end,
-	},
-	{
 		"jovian-nvim",
 		ft = "python",
 		after = function()

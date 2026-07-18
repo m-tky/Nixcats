@@ -30,14 +30,6 @@
     jupynvim = {
       url = "github:m-tky/jupynvim";
     };
-    jupytext-nvim = {
-      url = "github:GCBallesteros/jupytext.nvim";
-      flake = false;
-    };
-    # nvim-treesitter = {
-    #   url = "git+https://github.com/nvim-treesitter/nvim-treesitter?ref=main";
-    #   flake = false;
-    # };
     nvim-treesitter-textobjects = {
       url = "git+https://github.com/nvim-treesitter/nvim-treesitter-textobjects?ref=main";
       flake = false;
@@ -402,11 +394,6 @@
             jupyter = with pkgs.vimPlugins; [
               hydra-nvim
               jovian-nvim
-              (pkgs.vimUtils.buildVimPlugin {
-                pname = "jupytext-nvim";
-                version = "git";
-                src = inputs.jupytext-nvim;
-              })
             ];
 
             cmp = with pkgs.vimPlugins; [
@@ -467,11 +454,7 @@
           # vim.g.python3_host_prog
           # or run from nvim terminal via :!<packagename>-python3
           python3.libraries = {
-            general = (
-              ps: with ps; [
-                jupytext
-              ]
-            );
+            general = (_: [ ]);
             test = (_: [ ]);
           };
           # populates $LUA_PATH and $LUA_CPATH
