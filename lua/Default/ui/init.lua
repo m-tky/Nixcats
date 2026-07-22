@@ -130,6 +130,7 @@ require("lze").load({
 	},
 	{
 		"hlargs.nvim",
+		event = { "BufReadPost", "BufNewFile" },
 		after = function()
 			require("hlargs").setup({})
 		end,
@@ -183,6 +184,7 @@ require("lze").load({
 	-- },
 	{
 		"nvim-treesitter",
+		event = { "BufReadPost", "BufNewFile" },
 		dep_of = {
 			"nvim-treesitter-textobjects",
 			"nvim-treesitter-context",
@@ -350,9 +352,6 @@ require("lze").load({
 		event = {
 			"BufReadPre",
 			"BufNewFile",
-			"InsertEnter",
-			"TextChanged",
-			"TextChangedI",
 		},
 		after = function(_)
 			require("gitsigns").setup({
@@ -380,7 +379,7 @@ require("lze").load({
 				current_line_blame_opts = {
 					virt_text = true,
 					virt_text_pos = "eol",
-					delay = 100,
+					delay = 500,
 					ignore_whitespace = false,
 				},
 				current_line_blame_formatter = "  <author>, <author_time:%Y-%m-%d> - <summary>",
@@ -602,13 +601,14 @@ require("lze").load({
 	},
 	{
 		"nvim-web-devicons",
+		event = "DeferredUIEnter",
 		after = function(_)
 			require("nvim-web-devicons").setup({ variant = "dark" })
 		end,
 	},
 	{
 		"nvim-scrollbar",
-		event = { "BufWinEnter", "WinScrolled", "DeferredUIEnter" },
+		event = "DeferredUIEnter",
 		after = function(_)
 			require("scrollbar").setup({})
 		end,

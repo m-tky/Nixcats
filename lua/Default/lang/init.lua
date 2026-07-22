@@ -39,31 +39,6 @@ require("lze").load({
 					width = "block",
 				},
 				injections = {
-					python = {
-						enabled = true,
-						query = [[
-              ;
-              ; === Markdownセル ===
-              ;
-              (comment
-                (source) @injection.content
-                ; Markdownセルの開始マーカー
-                (#match? @injection.content "^# %% \\[markdown\\].*") 
-                (#set! injection.language "markdown")
-                (#set! injection.strip_prefix "# ")
-                (#set! injection.combined)
-              )
-              (comment
-                (source) @injection.content
-                ; Markdownセルに属するコメント行
-                ; (注: '# ' で始まり、'%' が続かない行、または '#' のみの行)
-                (#match? @injection.content "^#( [^%].*|$)")
-                (#set! injection.language "markdown")
-                (#set! injection.strip_prefix "# ")
-                (#set! injection.combined)
-              )
-            ]],
-					},
 					gitcommit = {
 						enabled = true,
 						query = [[
@@ -79,6 +54,6 @@ require("lze").load({
 				overlay.render_markdown_cells()
 			end, {})
 		end,
-		ft = { "markdown", "python" },
+		ft = { "markdown" },
 	},
 })

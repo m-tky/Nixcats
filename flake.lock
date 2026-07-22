@@ -55,22 +55,6 @@
         "type": "github"
       }
     },
-    "jupytext-nvim": {
-      "flake": false,
-      "locked": {
-        "lastModified": 1712342824,
-        "narHash": "sha256-LBBRZOSqn70qruSA/vbPMTzS7y05F/z4EqC+5JlU6NM=",
-        "owner": "GCBallesteros",
-        "repo": "jupytext.nvim",
-        "rev": "c8baf3ad344c59b3abd461ecc17fc16ec44d0f7b",
-        "type": "github"
-      },
-      "original": {
-        "owner": "GCBallesteros",
-        "repo": "jupytext.nvim",
-        "type": "github"
-      }
-    },
     "marp-nvim": {
       "flake": false,
       "locked": {
@@ -120,11 +104,11 @@
     },
     "nixpkgs_2": {
       "locked": {
-        "lastModified": 1782959384,
-        "narHash": "sha256-xnJJk+ct+D2+wdRxj1wk36w5zV9RVESwRqcklPdt3fM=",
+        "lastModified": 1784497964,
+        "narHash": "sha256-vlHUuqAcbcH2RKmHbPiuQzbv1pnzzavXnI62RD0bqCU=",
         "owner": "NixOS",
         "repo": "nixpkgs",
-        "rev": "65179426c83bb3f6bc14898b42ea1c6f01d374b0",
+        "rev": "241313f4e8e508cb9b13278c2b0fa25b9ca27163",
         "type": "github"
       },
       "original": {
@@ -136,11 +120,11 @@
     },
     "nixpkgs_3": {
       "locked": {
-        "lastModified": 1782948114,
-        "narHash": "sha256-AXmz9ho4Lud5CsbrZsuSVwpQZ4o5FgZ1chxBn5cJ8+0=",
+        "lastModified": 1784555310,
+        "narHash": "sha256-/FCliTPgiuV1owejZFNx3Ch9irdvkOfOFl+HHZ+DrtM=",
         "owner": "nixos",
         "repo": "nixpkgs",
-        "rev": "9e92285f211dad236540fd617d7e30e0b99bc0e1",
+        "rev": "421eebfd0ec7bccd4abe826ce62d7e6e83129493",
         "type": "github"
       },
       "original": {
@@ -153,11 +137,11 @@
     "nvim-treesitter-textobjects": {
       "flake": false,
       "locked": {
-        "lastModified": 1775552773,
-        "narHash": "sha256-fOpRElIwvsFWm4AwETx7fpC3RtdH2BpCfX4YHVitqw0=",
+        "lastModified": 1784459145,
+        "narHash": "sha256-naZ+p5RrC+uUyFRaksmozDfNgJRifff+9TDWx79DCPk=",
         "ref": "main",
-        "rev": "851e865342e5a4cb1ae23d31caf6e991e1c99f1e",
-        "revCount": 703,
+        "rev": "898ee307df58f854d11cd7edd06472574d48014e",
+        "revCount": 705,
         "type": "git",
         "url": "https://github.com/nvim-treesitter/nvim-treesitter-textobjects"
       },
@@ -171,7 +155,6 @@
       "inputs": {
         "jovian": "jovian",
         "jupynvim": "jupynvim",
-        "jupytext-nvim": "jupytext-nvim",
         "marp-nvim": "marp-nvim",
         "nixCats": "nixCats",
         "nixpkgs": "nixpkgs_3",

@@ -81,25 +81,34 @@ end
 -- }}}
 local config_group = vim.api.nvim_create_augroup("DefaultConfig", { clear = true })
 
--- fcitx5 Japanese IME auto-switching. Keep this optional for non-fcitx hosts.
-if vim.fn.executable("fcitx5-remote") == 1 then
-	local fcitx5state = vim.fn.system("fcitx5-remote"):sub(1, 1)
-	vim.api.nvim_create_autocmd("InsertLeave", {
-		group = config_group,
-		callback = function()
-			fcitx5state = vim.fn.system("fcitx5-remote"):sub(1, 1)
-			vim.fn.system("fcitx5-remote -c")
-		end,
-	})
-	vim.api.nvim_create_autocmd("InsertEnter", {
-		group = config_group,
-		callback = function()
-			if fcitx5state == "2" then
-				vim.fn.system("fcitx5-remote -o")
-			end
-		end,
-	})
-end
+-- fcitx5 Japanese IME auto-switching.  This invokes an external process, so
+-- register it after a UI is ready rather than blocking startup.
+vim.api.nvim_create_autocmd("UIEnter", {
+	group = config_group,
+	once = true,
+	callback = function()
+		if vim.fn.executable("fcitx5-remote") ~= 1 then
+			return
+		end
+
+		local fcitx5state = vim.fn.system("fcitx5-remote"):sub(1, 1)
+		vim.api.nvim_create_autocmd("InsertLeave", {
+			group = config_group,
+			callback = function()
+				fcitx5state = vim.fn.system("fcitx5-remote"):sub(1, 1)
+				vim.fn.system("fcitx5-remote -c")
+			end,
+		})
+		vim.api.nvim_create_autocmd("InsertEnter", {
+			group = config_group,
+			callback = function()
+				if fcitx5state == "2" then
+					vim.fn.system("fcitx5-remote -o")
+				end
+			end,
+		})
+	end,
+})
 
 vim.api.nvim_create_autocmd("BufWritePre", {
 	group = config_group,
@@ -135,13 +144,8 @@ vim.keymap.set("i", "jk", "<Esc>", { noremap = true })
 -- マークダウンセル挿入
 vim.keymap.set(
 	"n",
-	"<leader>jm",
+	"<leader>jim",
 	"o<CR># %% [markdown]<CR># ",
-	{ noremap = true, silent = true, desc = "Insert markdown cell (# %% [markdown])" }
+	{ noremap = true, silent = true, desc = "Insert markdown cell" }
 )
-vim.keymap.set(
-	"n",
-	"<leader>jc",
-	"o<CR># %%<CR># ",
-	{ noremap = true, silent = true, desc = "Insert code cell (# %%)" }
-)
+vim.keymap.set("n", "<leader>jic", "o<CR># %%<CR># ", { noremap = true, silent = true, desc = "Insert code cell" })

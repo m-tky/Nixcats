@@ -272,9 +272,7 @@
                 lzextras
                 # (nvim-notify.overrideAttrs { doCheck = false; }) # TODO: remove overrideAttrs after check is fixed
               ];
-              extra = [
-                nvim-web-devicons
-              ];
+              extra = [ ];
             };
             # You can retreive information from the
             # packageDefinitions of the package this was packaged with.

@@ -69,7 +69,7 @@ require("lze").load({
 	{
 		"snacks.nvim",
 		priority = 1000,
-		lazy = false,
+		event = "DeferredUIEnter",
 		---@type snacks.Config
 		after = function()
 			require("snacks").setup({
@@ -240,13 +240,6 @@ require("lze").load({
 				desc = "Git Log File",
 			},
 			-- Grep
-			{
-				"<leader>sb",
-				function()
-					Snacks.picker.lines()
-				end,
-				desc = "Buffer Lines",
-			},
 			{
 				"<leader>sB",
 				function()
@@ -498,13 +491,6 @@ require("lze").load({
 				desc = "Select Scratch Buffer",
 			},
 			{
-				"<leader>n",
-				function()
-					Snacks.notifier.show_history()
-				end,
-				desc = "Notification History",
-			},
-			{
 				"<leader>bd",
 				function()
 					Snacks.bufdelete()
@@ -658,7 +644,7 @@ require("lze").load({
 			require("diffview").setup({ use_icons = true })
 		end,
 		keys = {
-			{ "<leader>gd", "<cmd>DiffviewOpen<CR>", mode = "", desc = "Open Diffview", silent = true },
+			{ "<leader>gV", "<cmd>DiffviewOpen<CR>", mode = "", desc = "Open Diffview", silent = true },
 		},
 		cmd = {
 			"DiffviewOpen",
@@ -680,32 +666,14 @@ require("lze").load({
 			})
 			require("which-key").add({
 				{ "<leader>a", group = "Aerial" },
-				{ "<leader>r", group = "TreesitterRefactor" },
 				{ "<leader>g", group = "Git" },
 				{ "<leader>h", group = "Gitsigns" },
 				{ "<leader>l", group = "LSP" },
-				{ "<leader>M", group = "Molten" },
 				{ "<leader>j", group = "Jovian" },
-				{ "<leader>s", group = "Surround" },
-
-				{ "<leader>sy", group = "Add surround" },
-				{ "<leader>syw", desc = "word → (word)    [ysiw)]" },
-				{ "<leader>sy$", desc = 'to $ → "..."    [ys$"]' },
-
-				{ "<leader>sd", group = "Delete surround" },
-				{ "<leader>sd]", desc = "brackets []      [ds]]" },
-				{ "<leader>sdt", desc = "HTML tag         [dst]" },
-				{ "<leader>sdf", desc = "function call () [dsf]" },
-
-				{ "<leader>sc", group = "Change surround" },
-				{ "<leader>sc'", desc = "' → \"              [cs'\"]" },
-				{ "<leader>sct", desc = "<tag> → <h1>       [cst]" },
-				-- { "<leader>f", group = "Telescope" },
 				{ "<leader>y", group = "Yazi" },
 				{ "<leader>t", group = "Terminal" },
-				-- { "<leader>tt", group = "Open Terminal" }
-				{ "<leader>rg", group = "Navigation" },
-				{ "<leader>rl", group = "List definition" },
+				{ "<leader>s", group = "Search" },
+				{ "<leader>u", group = "UI / toggles" },
 				{ "<leader>x", group = "Trouble" },
 				{ "<leader>b", group = "Delete Buffer" },
 				{ "<leader>d", group = "Debug" },
