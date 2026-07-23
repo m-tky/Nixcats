@@ -27,9 +27,6 @@
     jovian = {
       url = "github:m-tky/jovian.nvim";
     };
-    jupynvim = {
-      url = "github:m-tky/jupynvim";
-    };
     nvim-treesitter-textobjects = {
       url = "git+https://github.com/nvim-treesitter/nvim-treesitter-textobjects?ref=main";
       flake = false;
