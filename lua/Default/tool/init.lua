@@ -16,16 +16,16 @@ require("lze").load({
 		end,
 		keys = {
 			{
-				"s",
+				"<leader><leader>",
 				mode = { "n", "x", "o" },
 				function()
 					require("flash").jump()
 				end,
-				desc = "Flash",
+				desc = "Flash Jump",
 			},
 			{
-				"S",
-				mode = { "n", "x", "o" },
+				"<leader>S",
+				mode = { "n", "o" },
 				function()
 					require("flash").treesitter()
 				end,
@@ -665,6 +665,14 @@ require("lze").load({
 				},
 			})
 			require("which-key").add({
+				{ "ys", desc = "Surround: add", mode = "n" },
+				{ "yss", desc = "Surround: line", mode = "n" },
+				{ "yS", desc = "Surround: line (new lines)", mode = "n" },
+				{ "ds", desc = "Surround: delete", mode = "n" },
+				{ "cs", desc = "Surround: change", mode = "n" },
+				{ "cS", desc = "Surround: change (new lines)", mode = "n" },
+				{ "S", desc = "Surround: add", mode = "x" },
+				{ "gS", desc = "Surround: add (new lines)", mode = "x" },
 				{ "<leader>a", group = "Aerial" },
 				{ "<leader>g", group = "Git" },
 				{ "<leader>h", group = "Gitsigns" },

@@ -33,16 +33,16 @@ if vim.g.vscode then
 			end,
 			keys = {
 				{
-					"s",
+					"<leader><leader>",
 					mode = { "n", "x", "o" },
 					function()
 						require("flash").jump()
 					end,
-					desc = "Flash",
+					desc = "Flash Jump",
 				},
 				{
-					"S",
-					mode = { "n", "x", "o" },
+					"<leader>S",
+					mode = { "n", "o" },
 					function()
 						require("flash").treesitter()
 					end,
