@@ -434,6 +434,17 @@
             };
           };
 
+          # The nixCats wrapper invokes `nixCats.init_main()` through VIMINIT.
+          # Make the module explicit first: Lua modules are not globals unless
+          # assigned, and without this the packaged config never loads.
+          nixCatsBootstrap = {
+            wrapperArgs = [
+              "--set"
+              "VIMINIT"
+              ''lua _G.nixCats = require("nixCats"); nixCats.init_main()''
+            ];
+          };
+
           # If you know what these are, you can provide custom ones by category here.
           # If you dont, check this link out:
           # https://github.com/NixOS/nixpkgs/blob/master/pkgs/build-support/setup-hooks/make-wrapper.sh
@@ -577,6 +588,7 @@
               typst = true;
               yaml = true;
               docker = true;
+              nixCatsBootstrap = true;
 
               ui = true;
               edit = true;

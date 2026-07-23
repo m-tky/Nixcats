@@ -1,22 +1,56 @@
+local configured = false
+local function setup_jovian()
+  if configured then
+    return
+  end
+  configured = true
+  require("jovian").setup({
+    cell_frame = true, -- bordered cell cards
+    markdown_cell_style = true, -- styled markdown cells
+    inline_outputs = true, -- output rendered below cells
+    cell_frame_right_pad = 1,
+    ui_symbols = {
+      running = " ",
+      done = " ",
+      error = " ",
+      interrupted = " ",
+      stale = " ",
+    },
+  })
+end
+
+-- Native .ipynb editing needs a BufReadCmd, which replaces the normal read
+-- before filetype detection can trigger the Python lazy-loader.
+local ipynb_group = vim.api.nvim_create_augroup("NixCatsJovianIpynb", { clear = true })
+local function load_ipynb(args)
+  local buf = args.buf
+  vim.bo[buf].buftype = "acwrite"
+  vim.bo[buf].swapfile = false
+  vim.bo[buf].filetype = "python"
+
+  vim.cmd("packadd jovian-nvim")
+  setup_jovian()
+  require("jovian.ipynb_open").read(buf, args.file)
+end
+
+vim.api.nvim_create_autocmd("BufReadCmd", {
+  group = ipynb_group,
+  pattern = "*.ipynb",
+  callback = load_ipynb,
+})
+
+vim.api.nvim_create_autocmd("BufNewFile", {
+  group = ipynb_group,
+  pattern = "*.ipynb",
+  callback = load_ipynb,
+})
+
 require("lze").load({
-	{
-		"jovian-nvim",
-		after = function()
-			require("jovian").setup({
-				cell_frame = true, -- bordered cell cards
-				markdown_cell_style = true, -- styled markdown cells
-				inline_outputs = true, -- output rendered below cells
-				cell_frame_right_pad = 1,
-				ui_symbols = {
-					running = " ",
-					done = " ",
-					error = " ",
-					interrupted = " ",
-					stale = " ",
-				},
-			})
-		end,
-		keys = {
+  {
+    "jovian-nvim",
+    ft = "python",
+    after = setup_jovian,
+    keys = {
 			{ "<leader>jt", "<cmd>JovianToggle<cr>", desc = "Open Jovian UI" },
 			{ "<leader>jo", "<cmd>JovianToggleOutput<cr>", desc = "Toggle output window" },
 			{ "<leader>jc", "<cmd>JovianClearREPL<cr>", desc = "Clear REPL" },
