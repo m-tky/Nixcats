@@ -1,5 +1,31 @@
 require("lze").load({
 	{
+		"oil.nvim",
+		keys = {
+			{
+				"-",
+				function()
+					require("oil").open()
+				end,
+				desc = "Open parent directory",
+			},
+			{
+				"<leader>o",
+				function()
+					require("oil").open_float()
+				end,
+				desc = "Open Oil",
+			},
+		},
+		after = function()
+			require("oil").setup({
+				default_file_explorer = true,
+				columns = { "icon" },
+				float = { border = "rounded" },
+			})
+		end,
+	},
+	{
 		"yazi.nvim",
 		keys = {
 			{ "<leader>y-", "<CMD>Yazi<CR>", mode = "n", desc = "Open at the current File" },

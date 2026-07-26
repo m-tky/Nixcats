@@ -337,6 +337,7 @@
               diffview-nvim
               snacks-nvim
               yazi-nvim
+              oil-nvim
               undotree
             ];
 
