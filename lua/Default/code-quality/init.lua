@@ -58,7 +58,9 @@ require("lze").load({
 					sql = { "sqlfluff" },
 					typst = { "typstyle" },
 					yaml = { "yq" },
-					json = { "yq" },
+					-- `yq` runs with `-P`, which intentionally emits YAML. Use
+					-- Prettier for JSON so a save preserves JSON syntax.
+					json = { "prettier" },
 					xml = { "yq" },
 				},
 				format_on_save = {

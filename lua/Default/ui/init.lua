@@ -152,7 +152,7 @@ require("lze").load({
 					inc_rename = true,
 					long_message_to_split = true,
 					lsp_doc_border = true,
-					cmdline_output_to_split = true,
+					cmdline_output_to_split = false,
 				},
 			})
 		end,
