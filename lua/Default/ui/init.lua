@@ -230,9 +230,10 @@ require("lze").load({
 			-- 	"xml",
 			-- })
 			vim.treesitter.language.register("markdown", "vimwiki")
+			local parser_path = require("nixCats").settings.treesitterParserPath
+			vim.opt.runtimepath:prepend(vim.fn.fnamemodify(parser_path, ":h"))
 			require("nvim-treesitter").setup({
-				-- install_dir = os.getenv("HOME") .. "/.local/share/nvim/treesitter/parser",
-				install_dir = require("nixCats").settings.treesitterParserPath,
+				install_dir = parser_path,
 			})
 			local function enable_treesitter_features()
 				-- 1. 現在のバッファIDを取得
