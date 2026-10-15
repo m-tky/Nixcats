@@ -1,5 +1,39 @@
 require("lze").load({
 	{
+		"img-clip.nvim",
+		for_cat = "lang.markdown",
+		cmd = { "PasteImage" },
+		keys = {
+			{ "<leader>p", "<cmd>PasteImage<cr>", desc = "Paste image from clipboard" },
+		},
+		after = function()
+			require("img-clip").setup({
+				default = {
+					dir_path = "assets",
+					relative_to_current_file = true,
+				},
+			})
+		end,
+	},
+	{
+		"obsidian.nvim",
+		for_cat = "lang.markdown",
+		ft = { "markdown" },
+		cmd = { "Obsidian" },
+		after = function()
+			require("lze").trigger_load("snacks.nvim")
+			require("obsidian").setup({
+				legacy_commands = false,
+				workspaces = {
+					{ name = "personal", path = vim.fn.expand("~/Documents/Obsidian") },
+				},
+				picker = { name = "snacks.picker" },
+				-- Keep Markdown rendering in render-markdown.nvim.
+				ui = { enable = false },
+			})
+		end,
+	},
+	{
 		"typst-preview.nvim",
 		after = function()
 			require("typst-preview").setup({

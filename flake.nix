@@ -181,11 +181,15 @@
               # 使うかわからないけど一応
               mypy
             ];
-            markdown = with pkgs; [
-              marksman
-              markdownlint-cli2
-              prettier
-            ];
+            markdown =
+              with pkgs;
+              [
+                marksman
+                markdownlint-cli2
+                prettier
+              ]
+              ++ lib.optionals stdenv.hostPlatform.isLinux [ wl-clipboard xclip ]
+              ++ lib.optionals stdenv.hostPlatform.isDarwin [ pngpaste ];
             typescript = with pkgs; [
               typescript-language-server
               prettier
@@ -376,6 +380,8 @@
                 pkgs.vimPlugins.typst-preview-nvim
               ];
               markdown = [
+                pkgs.vimPlugins.obsidian-nvim
+                pkgs.vimPlugins.img-clip-nvim
                 pkgs.vimPlugins.render-markdown-nvim
               ]
               ++ [
